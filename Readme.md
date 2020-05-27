@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
-* Студент: [Daria Rose](https://up.htmlacademy.ru/javascript/20/user/1280973).
-* Наставник: `Неизвестно`.
+- Студент: [Daria Rose](https://up.htmlacademy.ru/javascript/20/user/1280973).
+- Наставник: ``.
 
 ---
 
