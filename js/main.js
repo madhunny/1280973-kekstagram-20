@@ -13,10 +13,10 @@ var MESSAGES = [
   "Как можно было поймать такой неудачный момент ? !",
 ];
 
-var pictureTemplate = document
+var pictureTemplateElement = document
   .querySelector("#picture")
   .content.querySelector(".picture");
-var pictures = document.querySelector(".pictures");
+var picturesElement = document.querySelector(".pictures");
 
 function getRandomNumberFromRange(min, max) {
   min = Math.ceil(min);
@@ -59,21 +59,21 @@ function getPhotos() {
 
 var photos = getPhotos();
 
-var renderPicture = function (item) {
-  var contentItem = pictureTemplate.cloneNode(true);
+var renderPhoto = function (photo) {
+  var photoElement = pictureTemplateElement.cloneNode(true);
 
-  contentItem.querySelector(".picture__img").src = item.url;
-  contentItem.querySelector(".picture__likes").textContent = item.likes;
-  contentItem.querySelector(".picture__comments").textContent =
-    item.comments.length;
+  photoElement.querySelector(".picture__img").src = photo.url;
+  photoElement.querySelector(".picture__likes").textContent = photo.likes;
+  photoElement.querySelector(".picture__comments").textContent =
+    photo.comments.length;
 
-  return contentItem;
+  return photoElement;
 };
 
 var renderContent = function () {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < arr.length; i++) {
-    fragment.appendChild(renderPicture(item[i]));
+    fragment.appendChild(renderPicture(photo[i]));
   }
   pictures.appendChild(fragment);
 
