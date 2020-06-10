@@ -1,7 +1,10 @@
 "use strict";
 var NUMBERS_PHOTOS = 25;
 var NUMBERS_COMMENTS = 3;
-
+var AVATAR_MIN = 1;
+var AVATAR_MAX = 6;
+var LIKES_MIN = 15;
+var LIKES_MAX = 200;
 var NAMES = ["Anton", "Katia", "Maks", "Sergej", "Olga", "Vika"];
 var MESSAGES = [
   "Всё отлично!",
@@ -13,10 +16,10 @@ var MESSAGES = [
   "Как можно было поймать такой неудачный момент ? !",
 ];
 
-var pictureTemplateElement = document
+var pictureTemplate = document
   .querySelector("#picture")
   .content.querySelector(".picture");
-var picturesElement = document.querySelector(".pictures");
+var pictures = document.querySelector(".pictures");
 
 function getRandomNumberFromRange(min, max) {
   min = Math.ceil(min);
@@ -31,16 +34,19 @@ function getRandomElementFromArray(arr) {
 }
 
 function getComments() {
-  var reviews = [];
+  var commentElement = [];
   for (var i = 1; i <= NUMBERS_COMMENTS; i++) {
     var comment = {
-      avatar: "img/avatar-" + getRandomNumberFromRange(1, 6) + ".svg",
+      avatar:
+        "img/avatar-" +
+        getRandomNumberFromRange(AVATAR_MIN, AVATAR_MAX) +
+        ".svg",
       message: getRandomElementFromArray(MESSAGES),
       name: getRandomElementFromArray(NAMES),
     };
-    reviews.push(comment);
+    commentElement.push(comment);
   }
-  return reviews;
+  return commentElement;
 }
 
 function getPhotos() {
@@ -49,7 +55,7 @@ function getPhotos() {
     var photo = {
       url: "photos/" + i + ".jpg",
       description: " ",
-      likes: getRandomNumberFromRange(15, 200),
+      likes: getRandomNumberFromRange(LIKES_MIN, LIKES_MAX),
       comments: [],
     };
     photos.push(photo);
@@ -60,7 +66,7 @@ function getPhotos() {
 var photos = getPhotos();
 
 var renderPhoto = function (photo) {
-  var photoElement = pictureTemplateElement.cloneNode(true);
+  var photoElement = pictureTemplate.cloneNode(true);
 
   photoElement.querySelector(".picture__img").src = photo.url;
   photoElement.querySelector(".picture__likes").textContent = photo.likes;
@@ -73,7 +79,7 @@ var renderPhoto = function (photo) {
 var renderContent = function () {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < arr.length; i++) {
-    fragment.appendChild(renderPicture(photo[i]));
+    fragment.appendChild(renderPhoto(photo[i]));
   }
   pictures.appendChild(fragment);
 
@@ -81,3 +87,8 @@ var renderContent = function () {
 };
 
 renderContent();
+
+var renderBigPhoto = function (photo) {
+  var bigPicture = document.querySelector(".big-picture");
+  bigPicture.classList.remove("hidden");
+};
