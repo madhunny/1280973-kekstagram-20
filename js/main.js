@@ -17,6 +17,7 @@ var MESSAGES = [
 ];
 
 var pictureElement = document.querySelector('#picture').content.querySelector('.picture');
+
 var picturesElements = document.querySelector('.pictures');
 
 function getRandomNumberFromRange(min, max) {
