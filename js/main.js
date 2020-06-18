@@ -63,7 +63,7 @@ var photos = getPhotos();
 var renderPhoto = function (photo) {
   var photoElement = pictureElement.cloneNode(true);
   photoElement.querySelector('.picture__img').src = photo.url;
-  photoElement.querySelector('.picture__likes').textContent = photos.likes;
+  photoElement.querySelector('.picture__likes').textContent = photo.likes;
   photoElement.querySelector('.picture__comments').textContent = photo.comments.length;
 
   return photoElement;
@@ -84,9 +84,9 @@ renderContent();
 function getCommentForBigPicture(arr) {
   var commentBigPictureElement = document.querySelector('#big_picture').content;
   var commentElement = commentBigPictureElement.cloneNode(true);
-  commentElement.querySelector('.social__picture').src = arrayComment.avatar;
-  commentElement.querySelector('.social__picture').alt = arrayComment.name;
-  commentElement.querySelector('.social__text').textContent = arrayComment.message;
+  commentElement.querySelector('.social__picture').src = arr.avatar;
+  commentElement.querySelector('.social__picture').alt = arr.name;
+  commentElement.querySelector('.social__text').textContent = arr.message;
   return commentElement;
 }
 
@@ -112,6 +112,6 @@ function renderBigPicture(photo) {
   commentsLoaderElement.classList.add('hidden');
 
   document.querySelector('body').classList.add('modal-open');
-};
+}
 
-renderBigPicture(photo[0]);
+renderBigPicture(photos[0]);
