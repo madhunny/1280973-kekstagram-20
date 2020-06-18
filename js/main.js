@@ -16,9 +16,8 @@ var MESSAGES = [
   'Как можно было поймать такой неудачный момент ? !',
 ];
 
-var pictureElement = document
-  .querySelector('#picture')
-  .content.querySelector('.picture');
+var pictureElement = document.querySelector('#picture').content.querySelector('.picture');
+
 var picturesElements = document.querySelector('.pictures');
 
 function getRandomNumberFromRange(min, max) {
@@ -37,10 +36,7 @@ function getComments() {
   var comments = [];
   for (var i = 1; i <= NUMBERS_COMMENTS; i++) {
     var comment = {
-      avatar:
-        'img/avatar-' +
-        getRandomNumberFromRange(AVATAR_MIN, AVATAR_MAX) +
-        '.svg',
+      avatar: 'img/avatar-' + getRandomNumberFromRange(AVATAR_MIN, AVATAR_MAX) + '.svg',
       message: getRandomElementFromArray(MESSAGES),
       name: getRandomElementFromArray(NAMES),
     };
@@ -67,11 +63,9 @@ var photos = getPhotos();
 
 var renderPhoto = function (photo) {
   var photoElement = pictureElement.cloneNode(true);
-
   photoElement.querySelector('.picture__img').src = photo.url;
   photoElement.querySelector('.picture__likes').textContent = photos.likes;
-  photoElement.querySelector('.picture__comments').textContent =
-    photo.comments.length;
+  photoElement.querySelector('.picture__comments').textContent = photo.comments.length;
 
   return photoElement;
 };
@@ -87,3 +81,38 @@ var renderContent = function () {
 };
 
 renderContent();
+
+function getCommentForBigPicture(arr) {
+  var commentBigPictureElement = document.querySelector('#big_picture').content;
+  var commentElement = commentBigPictureElement.cloneNode(true);
+  commentElement.querySelector('.social__picture').src = arrayComment.avatar;
+  commentElement.querySelector('.social__picture').alt = arrayComment.name;
+  commentElement.querySelector('.social__text').textContent = arrayComment.message;
+  return commentElement;
+}
+
+function renderBigPicture(photo) {
+  var bigPictureElement = document.querySelector('.big-picture');
+  var bigPictureImgElement = document.querySelector('.big-picture__img img');
+  var likesCountElement = document.querySelector('.likes-count');
+  var socialCaptionElement = document.querySelector('.social__caption');
+  var commentsCountElement = document.querySelector('.comments-count');
+  var socialCommentsElement = document.querySelector('.social__comments');
+  var socialCommentCountElement = document.querySelector('.social__comment-count');
+  var commentsLoaderElement = document.querySelector('.comments-loader');
+
+  bigPictureElement.classList.remove('hidden');
+  bigPictureImgElement.src = photo.url;
+  likesCountElement.textContent = photo.likes;
+  socialCaptionElement.textContent = photo.description;
+  commentsCountElement.textContent = photo.comments.length;
+  for (var i = 0; i <= photo.comments.length; i++) {
+    socialCommentsElement.appendChild(getCommentForBigPicture(photo.comments[i]));
+  }
+  socialCommentCountElement.classList.add('hidden');
+  commentsLoaderElement.classList.add('hidden');
+
+  document.querySelector('body').classList.add('modal-open');
+};
+
+renderBigPicture(photo[0]);
