@@ -1,4 +1,5 @@
 'use strict';
+
 var NUMBERS_PHOTOS = 25;
 var NUMBERS_COMMENTS = 3;
 var AVATAR_MIN = 1;
