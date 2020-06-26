@@ -18,10 +18,6 @@ var MESSAGES = [
 ];
 
 var pictureElement = document.querySelector('#picture').content.querySelector('.picture');
-<<<<<<< HEAD
-
-=======
->>>>>>> 0e4fc6f2d911260e756f74efcc730a0c249c443a
 var picturesElements = document.querySelector('.pictures');
 
 function getRandomNumberFromRange(min, max) {
@@ -119,8 +115,4 @@ function renderBigPicture(photo) {
   document.querySelector('body').classList.add('modal-open');
 }
 
-<<<<<<< HEAD
-renderBigPicture(photo[0]);
-=======
 renderBigPicture(photos[0]);
->>>>>>> 0e4fc6f2d911260e756f74efcc730a0c249c443a
