@@ -1,4 +1,5 @@
 'use strict';
+
 var NUMBERS_PHOTOS = 25;
 var NUMBERS_COMMENTS = 3;
 var AVATAR_MIN = 1;
@@ -17,7 +18,10 @@ var MESSAGES = [
 ];
 
 var pictureElement = document.querySelector('#picture').content.querySelector('.picture');
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0e4fc6f2d911260e756f74efcc730a0c249c443a
 var picturesElements = document.querySelector('.pictures');
 
 function getRandomNumberFromRange(min, max) {
@@ -64,7 +68,7 @@ var photos = getPhotos();
 var renderPhoto = function (photo) {
   var photoElement = pictureElement.cloneNode(true);
   photoElement.querySelector('.picture__img').src = photo.url;
-  photoElement.querySelector('.picture__likes').textContent = photos.likes;
+  photoElement.querySelector('.picture__likes').textContent = photo.likes;
   photoElement.querySelector('.picture__comments').textContent = photo.comments.length;
 
   return photoElement;
@@ -85,9 +89,9 @@ renderContent();
 function getCommentForBigPicture(arr) {
   var commentBigPictureElement = document.querySelector('#big_picture').content;
   var commentElement = commentBigPictureElement.cloneNode(true);
-  commentElement.querySelector('.social__picture').src = arrayComment.avatar;
-  commentElement.querySelector('.social__picture').alt = arrayComment.name;
-  commentElement.querySelector('.social__text').textContent = arrayComment.message;
+  commentElement.querySelector('.social__picture').src = arr.avatar;
+  commentElement.querySelector('.social__picture').alt = arr.name;
+  commentElement.querySelector('.social__text').textContent = arr.message;
   return commentElement;
 }
 
@@ -113,6 +117,10 @@ function renderBigPicture(photo) {
   commentsLoaderElement.classList.add('hidden');
 
   document.querySelector('body').classList.add('modal-open');
-};
+}
 
+<<<<<<< HEAD
 renderBigPicture(photo[0]);
+=======
+renderBigPicture(photos[0]);
+>>>>>>> 0e4fc6f2d911260e756f74efcc730a0c249c443a
