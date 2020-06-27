@@ -169,26 +169,19 @@ textHashtagsElement.addEventListener('blur', function () {
     }
     if (values[i][0] !== '#') {
       textHashtagsElement.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
-    }
-    else if (!regexp.test(values[i])) {
+    } else if (!regexp.test(values[i])) {
       textHashtagsElement.setCustomValidity('Имя хештега не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;');
-    }
-    else if (values[i].length < 2) {
+    } else if (values[i].length < 2) {
       textHashtagsElement.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
-    }
-    else if (values[i].length > 20) {
+    } else if (values[i].length > 20) {
       textHashtagsElement.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку;');
-    }
-    else if (values[i].indexOf('#', 1) > 0) {
+    } else if (values[i].indexOf('#', 1) > 0) {
       textHashtagsElement.setCustomValidity('Хэш-теги разделяются пробелами;');
-    }
-    else if (result) {
+    } else if (result) {
       textHashtagsElement.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды;');
-    }
-    else if (values.length > 5) {
+    } else if (values.length > 5) {
       textHashtagsElement.setCustomValidity('Нельзя указать больше пяти хэш-тегов;');
-    }
-    else {
+    } else {
       textHashtagsElement.setCustomValidity('');
     }
   }
