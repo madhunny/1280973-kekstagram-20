@@ -66,6 +66,9 @@ var renderPhoto = function (photo) {
   photoElement.querySelector('.picture__img').src = photo.url;
   photoElement.querySelector('.picture__likes').textContent = photo.likes;
   photoElement.querySelector('.picture__comments').textContent = photo.comments.length;
+  photoElement.onclick = function (ev) {
+    ev.preventDefault(); renderBigPicture(photo);
+  };
 
   return photoElement;
 };
@@ -82,13 +85,18 @@ var renderContent = function () {
 
 renderContent();
 
-function getCommentForBigPicture(arr) {
-  var commentBigPictureElement = document.querySelector('#big_picture').content;
+function renderCommentForBigPicture(commentBigPictureElement, comment) {
   var commentElement = commentBigPictureElement.cloneNode(true);
-  commentElement.querySelector('.social__picture').src = arr.avatar;
-  commentElement.querySelector('.social__picture').alt = arr.name;
-  commentElement.querySelector('.social__text').textContent = arr.message;
+  commentElement.querySelector('.social__picture').src = comment.avatar;
+  commentElement.querySelector('.social__picture').alt = comment.name;
+  commentElement.querySelector('.social__text').textContent = comment.message;
   return commentElement;
+}
+
+function closeBigPicture() {
+  var bigPictureElement = document.querySelector('.big-picture');
+  bigPictureElement.classList.add('hidden');
+  document.querySelector('body').classList.remove('modal-open');
 }
 
 function renderBigPicture(photo) {
@@ -98,24 +106,23 @@ function renderBigPicture(photo) {
   var socialCaptionElement = document.querySelector('.social__caption');
   var commentsCountElement = document.querySelector('.comments-count');
   var socialCommentsElement = document.querySelector('.social__comments');
-  var socialCommentCountElement = document.querySelector('.social__comment-count');
-  var commentsLoaderElement = document.querySelector('.comments-loader');
+  document.getElementById('picture-cancel').onclick = closeBigPicture;
 
   bigPictureElement.classList.remove('hidden');
   bigPictureImgElement.src = photo.url;
   likesCountElement.textContent = photo.likes;
   socialCaptionElement.textContent = photo.description;
   commentsCountElement.textContent = photo.comments.length;
-  for (var i = 0; i <= photo.comments.length; i++) {
-    socialCommentsElement.appendChild(getCommentForBigPicture(photo.comments[i]));
+  var template = document.querySelector('.social__comment').cloneNode(true);
+  document.querySelector('.social__comments').textContent = '';
+
+
+  for (var i = 0; i < photo.comments.length; i++) {
+    socialCommentsElement.appendChild(renderCommentForBigPicture(template, photo.comments[i]));
   }
-  socialCommentCountElement.classList.add('hidden');
-  commentsLoaderElement.classList.add('hidden');
 
   document.querySelector('body').classList.add('modal-open');
 }
-
-renderBigPicture(photos[0]);
 
 var uploadFileElement = document.querySelector('#upload-file');
 var uploadCancelButtonElement = document.querySelector('#upload-cancel');
@@ -123,6 +130,8 @@ var uploadImageOverlayElement = document.querySelector('.img-upload__overlay');
 var uploadImagePreviewElement = document.querySelector('.img-upload__preview img');
 
 var openPopupImageModification = function () {
+  var file = uploadFileElement.files[0];
+  uploadImagePreviewElement.src = URL.createObjectURL(file);
   uploadImageOverlayElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', popupEscapePress);
@@ -136,7 +145,7 @@ var closePopupImageModification = function () {
   document.removeEventListener('keydown', popupEscapePress);
 };
 
-uploadFileElement.addEventListener('change', function () {
+uploadFileElement.addEventListener('change', function (_event) {
   openPopupImageModification();
 });
 uploadCancelButtonElement.addEventListener('click', function () {
@@ -161,6 +170,7 @@ textHashtagsElement.addEventListener('blur', function () {
   var values = (textHashtagsElement.value).split(' ');
   var regexp = /^#[a-zA-Zа-яА-Я0-9]*$/;
   var result;
+  textHashtagsElement.setCustomValidity('');
   for (var i = 0; i < values.length; i++) {
     for (var j = i + 1; j < values.length; j++) {
       if (values[i].toLowerCase() === values[j].toLowerCase()) {
@@ -188,13 +198,12 @@ textHashtagsElement.addEventListener('blur', function () {
 });
 
 var uploadImageEffectLevelElement = document.querySelector('.img-upload__effect-level');
-
-uploadImagePreviewElement.style.transform = 'scale(' + parseInt(scaleControlValueElement.value, 10) / 100 + ')';
-uploadImageEffectLevelElement.classList.add('hidden');
-
 var scaleControlSmallerElement = document.querySelector('.scale__control--smaller');
 var scaleControlBiggerElement = document.querySelector('.scale__control--bigger');
 var scaleControlValueElement = document.querySelector('.scale__control--value');
+
+uploadImagePreviewElement.style.transform = 'scale(' + parseInt(scaleControlValueElement.value, 10) / 100 + ')';
+uploadImageEffectLevelElement.classList.add('hidden');
 
 scaleControlSmallerElement.addEventListener('click', function () {
   if (parseInt(scaleControlValueElement.value, 10) <= 25) {
@@ -213,7 +222,31 @@ scaleControlBiggerElement.addEventListener('click', function () {
 
 var effectLevelValueElement = document.querySelector('.effect-level__value');
 var effectsItemElement = document.querySelectorAll('.effects__item');
+var effectLevelDepthElement = document.querySelectorAll('.effect__level__depth');
 var effectLevelPinElement = document.querySelector('.effect-level__pin');
+var dragging = false;
+var moveListener = null;
+
+function updatePin() {
+  effectLevelPinElement.style.setProperty('left', effectLevelValueElement.value + '%');
+  effectLevelDepthElement.style.setProperty('width', effectLevelValueElement.value + '%');
+}
+effectLevelPinElement.addEventListener('mousedown', function () {
+  document.addEventListener('mousemove', function (event) {
+    effectLevelValueElement.value = effectLevelPinElement.offsetLeft - event.clientX;
+    updatePin();
+    renderEffectLevel(effectLevelValueElement.value);
+  });
+  dragging = true;
+}, false);
+
+document.addEventListener('mouseup', function () {
+  if (dragging) {
+    dragging = false;
+    document.removeEventListener('mousemove', moveListener);
+  }
+}, false);
+
 
 var renderEffectLevel = function (pinValue) {
   effectLevelPinElement.addEventListener('mouseup', function () {
@@ -248,10 +281,9 @@ var getRadioValue = function (item) {
   });
 };
 
-function ImageEffect() {
+function imageEffect() {
   for (var i = 0; i < effectsItemElement.length; i++) {
     getRadioValue(effectsItemElement[i]);
   }
 }
-ImageEffect();
-
+imageEffect();
