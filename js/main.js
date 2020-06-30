@@ -116,7 +116,6 @@ function renderBigPicture(photo) {
   var template = document.querySelector('.social__comment').cloneNode(true);
   document.querySelector('.social__comments').textContent = '';
 
-
   for (var i = 0; i < photo.comments.length; i++) {
     socialCommentsElement.appendChild(renderCommentForBigPicture(template, photo.comments[i]));
   }
@@ -168,7 +167,7 @@ var popupEscapePress = function (evt) {
 
 textHashtagsElement.addEventListener('blur', function () {
   var values = (textHashtagsElement.value).split(' ');
-  var regexp = /^#[a-zA-Zа-яА-Я0-9]*$/;
+  var hashtagSymbols = /^#[a-zA-Zа-яА-Я0-9]*$/;
   var result;
   textHashtagsElement.setCustomValidity('');
   for (var i = 0; i < values.length; i++) {
@@ -179,7 +178,7 @@ textHashtagsElement.addEventListener('blur', function () {
     }
     if (values[i][0] !== '#') {
       textHashtagsElement.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
-    } else if (!regexp.test(values[i])) {
+    } else if (!hashtagSymbols.test(values[i])) {
       textHashtagsElement.setCustomValidity('Имя хештега не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;');
     } else if (values[i].length < 2) {
       textHashtagsElement.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
