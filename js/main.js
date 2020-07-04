@@ -116,9 +116,9 @@ function renderBigPicture(photo) {
   var template = document.querySelector('.social__comment').cloneNode(true);
   document.querySelector('.social__comments').textContent = '';
 
-  for (var i = 0; i < photo.comments.length; i++) {
-    socialCommentsElement.appendChild(renderCommentForBigPicture(template, photo.comments[i]));
-  }
+photo.comments.forEach(function(comment){
+    socialCommentsElement.appendChild(renderCommentForBigPicture(template, comment));
+});
 
   document.querySelector('body').classList.add('modal-open');
 }
