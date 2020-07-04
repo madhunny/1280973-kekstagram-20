@@ -17,6 +17,13 @@ var MESSAGES = [
   'Как можно было поймать такой неудачный момент ? !',
 ];
 
+var HASHTAG_MAX_LENGTH = 20;
+var HASHTAG_MIN_LENGTH = 2;
+var HASHTAG_MAX_COUNT = 5;
+var IMAGE_MIN_SCALE = 25;
+var IMAGE_MAX_SCALE = 100;
+var IMAGE_SCALE_STEP = 25;
+
 var pictureElement = document.querySelector('#picture').content.querySelector('.picture');
 var picturesElements = document.querySelector('.pictures');
 
@@ -116,9 +123,9 @@ function renderBigPicture(photo) {
   var template = document.querySelector('.social__comment').cloneNode(true);
   document.querySelector('.social__comments').textContent = '';
 
-photo.comments.forEach(function(comment){
+  photo.comments.forEach(function (comment) {
     socialCommentsElement.appendChild(renderCommentForBigPicture(template, comment));
-});
+  });
 
   document.querySelector('body').classList.add('modal-open');
 }
@@ -165,35 +172,49 @@ var popupEscapePress = function (evt) {
   }
 };
 
-textHashtagsElement.addEventListener('blur', function () {
+var validateHashTags = function () {
   var values = (textHashtagsElement.value).split(' ');
   var hashtagSymbols = /^#[a-zA-Zа-яА-Я0-9]*$/;
-  var result;
+  var duplicate;
   textHashtagsElement.setCustomValidity('');
-  for (var i = 0; i < values.length; i++) {
+  values.forEach(function (hashtag, i) {
     for (var j = i + 1; j < values.length; j++) {
-      if (values[i].toLowerCase() === values[j].toLowerCase()) {
-        result = true;
+      if (hashtag.toLowerCase() === values[j].toLowerCase()) {
+        duplicate = true;
+        break;
       }
     }
-    if (values[i][0] !== '#') {
+    if (hashtag[0] !== '#') {
       textHashtagsElement.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
-    } else if (!hashtagSymbols.test(values[i])) {
+      return
+    } else if (!hashtagSymbols.test(hashtag)) {
       textHashtagsElement.setCustomValidity('Имя хештега не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;');
-    } else if (values[i].length < 2) {
+      return
+    } else if (hashtag.length < HASHTAG_MIN_LENGTH) {
       textHashtagsElement.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
-    } else if (values[i].length > 20) {
-      textHashtagsElement.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку;');
-    } else if (values[i].indexOf('#', 1) > 0) {
+      return
+    } else if (hashtag.length > HASHTAG_MAX_LENGTH) {
+      textHashtagsElement.setCustomValidity('Максимальная длина одного хэш-тега ' + HASHTAG_MAX_LENGTH + ' символов, включая решётку;');
+      return
+    } else if (hashtag.indexOf('#', 1) > 0) {
       textHashtagsElement.setCustomValidity('Хэш-теги разделяются пробелами;');
-    } else if (result) {
+      return
+    } else if (duplicate) {
       textHashtagsElement.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды;');
-    } else if (values.length > 5) {
+      return
+    } else if (values.length > HASHTAG_MAX_COUNT) {
       textHashtagsElement.setCustomValidity('Нельзя указать больше пяти хэш-тегов;');
-    } else {
-      textHashtagsElement.setCustomValidity('');
+      return
     }
-  }
+  })
+};
+
+textHashtagsElement.addEventListener('blur', function () {
+  validateHashTags()
+});
+
+textHashtagsElement.addEventListener('input', function () {
+  textHashtagsElement.setCustomValidity('');
 });
 
 var uploadImageEffectLevelElement = document.querySelector('.img-upload__effect-level');
@@ -201,22 +222,28 @@ var scaleControlSmallerElement = document.querySelector('.scale__control--smalle
 var scaleControlBiggerElement = document.querySelector('.scale__control--bigger');
 var scaleControlValueElement = document.querySelector('.scale__control--value');
 
-uploadImagePreviewElement.style.transform = 'scale(' + parseInt(scaleControlValueElement.value, 10) / 100 + ')';
+uploadImagePreviewElement.style.transform = 'scale(' + parseInt(scaleControlValueElement.value, 10) / IMAGE_MAX_SCALE + ')';
 uploadImageEffectLevelElement.classList.add('hidden');
 
+
+var scaleImage = function (value) {
+  scaleControlValueElement.value = value + '%';
+  uploadImagePreviewElement.style.transform = 'scale(' + value / IMAGE_MAX_SCALE + ')';
+}
+
 scaleControlSmallerElement.addEventListener('click', function () {
-  if (parseInt(scaleControlValueElement.value, 10) <= 25) {
+  var value = parseInt(scaleControlValueElement.value, 10);
+  if (value <= IMAGE_MIN_SCALE) {
     return;
   }
-  scaleControlValueElement.value = (parseInt(scaleControlValueElement.value, 10) - 25) + '%';
-  uploadImagePreviewElement.style.transform = 'scale(' + parseInt(scaleControlValueElement.value, 10) / 100 + ')';
+  scaleImage(value - IMAGE_SCALE_STEP);
 });
 scaleControlBiggerElement.addEventListener('click', function () {
-  if (parseInt(scaleControlValueElement.value, 10) >= 100) {
+  var value = parseInt(scaleControlValueElement.value, 10);
+  if (value >= IMAGE_MAX_SCALE) {
     return;
   }
-  scaleControlValueElement.value = (parseInt(scaleControlValueElement.value, 10) + 25) + '%';
-  uploadImagePreviewElement.style.transform = 'scale(' + parseInt(scaleControlValueElement.value, 10) / 100 + ')';
+  scaleImage(value + IMAGE_SCALE_STEP);
 });
 
 var effectLevelValueElement = document.querySelector('.effect-level__value');
@@ -281,8 +308,8 @@ var getRadioValue = function (item) {
 };
 
 function imageEffect() {
-  for (var i = 0; i < effectsItemElement.length; i++) {
-    getRadioValue(effectsItemElement[i]);
-  }
+  effectsItemElement.forEach((item) => {
+    getRadioValue(item)
+  })
 }
 imageEffect();
