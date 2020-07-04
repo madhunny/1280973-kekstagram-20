@@ -186,31 +186,31 @@ var validateHashTags = function () {
     }
     if (hashtag[0] !== '#') {
       textHashtagsElement.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
-      return
+      return;
     } else if (!hashtagSymbols.test(hashtag)) {
       textHashtagsElement.setCustomValidity('Имя хештега не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;');
-      return
+      return;
     } else if (hashtag.length < HASHTAG_MIN_LENGTH) {
       textHashtagsElement.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
-      return
+      return;
     } else if (hashtag.length > HASHTAG_MAX_LENGTH) {
       textHashtagsElement.setCustomValidity('Максимальная длина одного хэш-тега ' + HASHTAG_MAX_LENGTH + ' символов, включая решётку;');
-      return
+      return;
     } else if (hashtag.indexOf('#', 1) > 0) {
       textHashtagsElement.setCustomValidity('Хэш-теги разделяются пробелами;');
-      return
+      return;
     } else if (duplicate) {
       textHashtagsElement.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды;');
-      return
+      return;
     } else if (values.length > HASHTAG_MAX_COUNT) {
       textHashtagsElement.setCustomValidity('Нельзя указать больше пяти хэш-тегов;');
-      return
+      return;
     }
-  })
+  });
 };
 
 textHashtagsElement.addEventListener('blur', function () {
-  validateHashTags()
+  validateHashTags();
 });
 
 textHashtagsElement.addEventListener('input', function () {
@@ -229,7 +229,7 @@ uploadImageEffectLevelElement.classList.add('hidden');
 var scaleImage = function (value) {
   scaleControlValueElement.value = value + '%';
   uploadImagePreviewElement.style.transform = 'scale(' + value / IMAGE_MAX_SCALE + ')';
-}
+};
 
 scaleControlSmallerElement.addEventListener('click', function () {
   var value = parseInt(scaleControlValueElement.value, 10);
@@ -308,8 +308,8 @@ var getRadioValue = function (item) {
 };
 
 function imageEffect() {
-  effectsItemElement.forEach((item) => {
-    getRadioValue(item)
-  })
+  effectsItemElement.forEach(function (item) {
+    getRadioValue(item);
+  });
 }
 imageEffect();
