@@ -43,7 +43,10 @@ function getComments() {
   var comments = [];
   for (var i = 1; i <= NUMBERS_COMMENTS; i++) {
     var comment = {
-      avatar: 'img/avatar-' + getRandomNumberFromRange(AVATAR_MIN, AVATAR_MAX) + '.svg',
+      avatar:
+        'img/avatar-' +
+        getRandomNumberFromRange(AVATAR_MIN, AVATAR_MAX) +
+        '.svg',
       message: getRandomElementFromArray(MESSAGES),
       name: getRandomElementFromArray(NAMES),
     };
@@ -70,6 +73,7 @@ var photos = getPhotos();
 
 var renderPhoto = function (photo) {
   var photoElement = pictureElement.cloneNode(true);
+
   photoElement.querySelector('.picture__img').src = photo.url;
   photoElement.querySelector('.picture__likes').textContent = photo.likes;
   photoElement.querySelector('.picture__comments').textContent = photo.comments.length;
