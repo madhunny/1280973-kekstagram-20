@@ -21,7 +21,7 @@
 
   var renderContent = function () {
     var fragment = document.createDocumentFragment();
-    window.data.forEach(function (photo) {
+    window.data.photos.forEach(function (photo) {
       fragment.appendChild(renderPhoto(photo));
     });
     picturesElements.appendChild(fragment);
@@ -70,10 +70,5 @@
 
     bodyElement.classList.add('modal-open');
   }
-
-  window.pictures = {
-
-
-  };
 
 })();

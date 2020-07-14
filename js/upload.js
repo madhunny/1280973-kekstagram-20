@@ -32,7 +32,7 @@
   });
 
   var popupEscapePress = function (evt) {
-    if (evt.key === 'Escape' && evt.target !== window.hashtags) {
+    if (evt.key === 'Escape' && evt.target !== window.hashtags.textHashtagsElement) {
       evt.preventDefault();
       closePopupImageModification();
     }
