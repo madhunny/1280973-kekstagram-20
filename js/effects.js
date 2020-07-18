@@ -84,6 +84,13 @@
       getRadioValue(item);
     });
   }
-  modifyImageEffect();
+
+  function init() {
+    modifyImageEffect();
+  }
+
+  window.effects = {
+    init: init
+  };
 
 })();
