@@ -32,7 +32,7 @@
   }
 
   window.data = {
-    photos: generatePhotos
+    generatePhotos: generatePhotos
   };
 
 })();

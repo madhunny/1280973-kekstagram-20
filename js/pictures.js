@@ -17,7 +17,7 @@
 
   function renderContent() {
     var fragment = document.createDocumentFragment();
-    window.data.photos(window.constant.NUMBERS_PHOTOS, window.constant.NUMBERS_COMMENTS).forEach(function (photo) {
+    window.data.generatePhotos(window.constant.NUMBERS_PHOTOS, window.constant.NUMBERS_COMMENTS).forEach(function (photo) {
       fragment.appendChild(renderPhoto(photo));
     });
     window.constant.picturesElements.appendChild(fragment);
