@@ -15,7 +15,7 @@
 
   window.utils = {
     getRandomNumberFromRange: getRandomNumberFromRange,
-    getRandomElementFromArray: getRandomElementFromArray
+    getRandomElementFromArray: getRandomElementFromArray,
   };
 
 })();

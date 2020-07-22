@@ -49,6 +49,10 @@
   var dragging = false;
   var moveListener = null;
 
+  var GET_DATA_URL = 'https://javascript.pages.academy/kekstagram/data';
+  var SEND_DATA_URL = 'https://javascript.pages.academy/kekstagram';
+  var TIME_OUT = 2000;
+
   window.constant = {
     NUMBERS_PHOTOS: NUMBERS_PHOTOS,
     NUMBERS_COMMENTS: NUMBERS_COMMENTS,
@@ -88,7 +92,10 @@
     effectLevelDepthElement: effectLevelDepthElement,
     effectLevelPinElement: effectLevelPinElement,
     dragging: dragging,
-    moveListener: moveListener
+    moveListener: moveListener,
+    GET_DATA_URL: GET_DATA_URL,
+    SEND_DATA_URL: SEND_DATA_URL,
+    TIME_OUT: TIME_OUT
 
   };
 })();
