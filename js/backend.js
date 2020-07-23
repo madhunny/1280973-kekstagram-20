@@ -48,18 +48,18 @@
     xhr.send(data);
   }
 
-  function downLoad(onSuccess, onError) {
+  function load(onSuccess, onError) {
     getData(window.constant.GET_DATA_URL, 'GET', onSuccess, onError);
   }
 
-  function upLoad(data, onSuccess, onError) {
+  function save(data, onSuccess, onError) {
     getData(window.constant.SEND_DATA_URL, 'POST', onSuccess, onError, data);
   }
 
   window.backend = {
     getData: getData,
-    downLoad: downLoad,
-    upLoad: upLoad
+    load: load,
+    save: save
   };
 
 })();
