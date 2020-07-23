@@ -52,6 +52,9 @@
   var GET_DATA_URL = 'https://javascript.pages.academy/kekstagram/data';
   var SEND_DATA_URL = 'https://javascript.pages.academy/kekstagram';
   var TIME_OUT = 2000;
+  var StatusCode = {
+    OK: 200
+  };
 
   window.constant = {
     NUMBERS_PHOTOS: NUMBERS_PHOTOS,
@@ -95,7 +98,8 @@
     moveListener: moveListener,
     GET_DATA_URL: GET_DATA_URL,
     SEND_DATA_URL: SEND_DATA_URL,
-    TIME_OUT: TIME_OUT
+    TIME_OUT: TIME_OUT,
+    StatusCode: StatusCode.OK
 
   };
 })();
