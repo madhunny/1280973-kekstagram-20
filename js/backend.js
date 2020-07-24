@@ -1,16 +1,12 @@
 'use strict';
 (function () {
 
-  var StatusCode = {
-    OK: 200
-  };
-
   function madeRequest(url, method, onSuccess, onError, data) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === StatusCode.OK) {
+      if (xhr.status === window.constant.StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);

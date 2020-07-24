@@ -22,6 +22,8 @@
   var picturesElements = document.querySelector('.pictures');
   var bodyElement = document.querySelector('body');
 
+  var errorElement = document.querySelector('#error').content.querySelector('.error');
+
   var HASHTAG_MAX_LENGTH = 20;
   var HASHTAG_MIN_LENGTH = 2;
   var HASHTAG_MAX_COUNT = 5;
@@ -36,6 +38,10 @@
   var IMAGE_MIN_SCALE = 25;
   var IMAGE_MAX_SCALE = 100;
   var IMAGE_SCALE_STEP = 25;
+
+
+  var numOfDisplayedComments = 5;
+  var photoDetailedComments = [];
 
   var uploadImageEffectLevelElement = document.querySelector('.img-upload__effect-level');
   var scaleControlSmallerElement = document.querySelector('.scale__control--smaller');
@@ -70,6 +76,8 @@
     picturesElements: picturesElements,
     bodyElement: bodyElement,
 
+    errorElement: errorElement,
+
     HASHTAG_MAX_LENGTH: HASHTAG_MAX_LENGTH,
     HASHTAG_MIN_LENGTH: HASHTAG_MIN_LENGTH,
     HASHTAG_MAX_COUNT: HASHTAG_MAX_COUNT,
@@ -85,6 +93,9 @@
     IMAGE_MAX_SCALE: IMAGE_MAX_SCALE,
     IMAGE_SCALE_STEP: IMAGE_SCALE_STEP,
 
+    numOfDisplayedComments: numOfDisplayedComments,
+    photoDetailedComments: photoDetailedComments,
+
     uploadImageEffectLevelElement: uploadImageEffectLevelElement,
     scaleControlSmallerElement: scaleControlSmallerElement,
     scaleControlBiggerElement: scaleControlBiggerElement,
@@ -99,7 +110,7 @@
     GET_DATA_URL: GET_DATA_URL,
     SEND_DATA_URL: SEND_DATA_URL,
     TIME_OUT: TIME_OUT,
-    StatusCode: StatusCode.OK
+    StatusCode: StatusCode
 
   };
 })();

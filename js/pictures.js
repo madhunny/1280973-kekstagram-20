@@ -15,14 +15,20 @@
     return photoElement;
   }
 
-  function renderContent() {
+  function onPhotosLoadError(error) {
+    var loadError = window.constant.errorElement.cloneNode(true);
+    loadError.appendChild(onPhotosLoadError(error));
+
+    window.constant.errorElement.appendChild(loadError);
+  }
+
+  function renderContent(photos) {
     var fragment = document.createDocumentFragment();
-    window.data.generatePhotos(window.constant.NUMBERS_PHOTOS, window.constant.NUMBERS_COMMENTS).forEach(function (photo) {
+    photos.forEach(function (photo) {
       fragment.appendChild(renderPhoto(photo));
     });
-    window.constant.picturesElements.appendChild(fragment);
 
-    return fragment;
+    window.constant.picturesElements.appendChild(fragment);
   }
 
   function renderCommentForBigPicture(commentBigPictureElement, comment) {
@@ -64,7 +70,7 @@
   }
 
   function init() {
-    renderContent();
+    window.backend.save(renderContent, onPhotosLoadError);
   }
 
   window.pictures = {
