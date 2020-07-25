@@ -93,7 +93,7 @@
       window.constant.effectLevelPinElement.style.left = 0 + 'px';
       window.constant.effectLevelDepthElement.style.width = 0 + 'px';
       window.constant.uploadImagePreviewElement.classList = '';
-      if (window.constant.activeEffect != 'none') {
+      if (window.constant.activeEffect !== 'none') {
         window.constant.uploadImagePreviewElement.classList.add('effects__preview--' + window.constant.activeEffect);
       }
 
