@@ -29,7 +29,6 @@
     photos.forEach(function (photo) {
       fragment.appendChild(renderPhoto(photo));
     });
-
     window.constant.picturesElements.appendChild(fragment);
   }
 
@@ -48,27 +47,48 @@
   }
 
   function renderBigPicture(photo) {
+    window.constant.photoDetailedComments = photo.comments;
     var bigPictureElement = document.querySelector('.big-picture');
     var bigPictureImgElement = document.querySelector('.big-picture__img img');
     var likesCountElement = document.querySelector('.likes-count');
     var socialCaptionElement = document.querySelector('.social__caption');
     var commentsCountElement = document.querySelector('.comments-count');
-    var socialCommentsElement = document.querySelector('.social__comments');
-    document.getElementById('picture-cancel').addEventListener('click', closeBigPicture);
+
+    document.querySelector('#picture-cancel').addEventListener('click', closeBigPicture);
+    document.querySelector('.comments-loader').addEventListener('click', loadMoreHandler);
 
     bigPictureElement.classList.remove('hidden');
     bigPictureImgElement.src = photo.url;
     likesCountElement.textContent = photo.likes;
     socialCaptionElement.textContent = photo.description;
     commentsCountElement.textContent = photo.comments.length;
-    var templateSocialCommentElement = document.querySelector('#social__comment').cloneNode(true);
+
     document.querySelector('.social__comments').textContent = '';
 
-    photo.comments.forEach(function (comment) {
-      socialCommentsElement.appendChild(renderCommentForBigPicture(templateSocialCommentElement, comment));
-    });
+    renderComments(photo.comments.slice(0, window.constant.numOfDisplayedComments));
 
     window.constant.bodyElement.classList.add('modal-open');
+  }
+
+  function loadMoreHandler() {
+    window.constant.numOfDisplayedComments += 3;
+    if (window.constant.numOfDisplayedComments >= window.constant.photoDetailedComments.length) {
+      window.constant.numOfDisplayedComments = window.constant.photoDetailedComments.length;
+    }
+    document.querySelector('.social__comments').textContent = '';
+
+    renderComments(window.constant.photoDetailedComments.slice(0, window.constant.numOfDisplayedComments));
+  }
+
+  function renderComments(comments) {
+    var commentsCountShownElement = document.querySelector('.comments-count-shown');
+    commentsCountShownElement.textContent = window.constant.numOfDisplayedComments;
+    var socialCommentsElement = document.querySelector('.social__comments');
+    var templateSocialCommentElement = document.querySelector('#social__comment').cloneNode(true);
+
+    comments.forEach(function (comment) {
+      socialCommentsElement.appendChild(renderCommentForBigPicture(templateSocialCommentElement, comment));
+    });
   }
 
   function init() {
