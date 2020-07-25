@@ -26,6 +26,7 @@
 
   function renderContent(photos) {
     var fragment = document.createDocumentFragment();
+
     photos.forEach(function (photo) {
       fragment.appendChild(renderPhoto(photo));
     });
@@ -46,8 +47,11 @@
     window.constant.bodyElement.classList.remove('modal-open');
   }
 
+  var numOfDisplayedComments = 5;
+  var photoDetailedComments = [];
+
   function renderBigPicture(photo) {
-    window.constant.photoDetailedComments = photo.comments;
+    photoDetailedComments = photo.comments;
     var bigPictureElement = document.querySelector('.big-picture');
     var bigPictureImgElement = document.querySelector('.big-picture__img img');
     var likesCountElement = document.querySelector('.likes-count');
@@ -65,24 +69,24 @@
 
     document.querySelector('.social__comments').textContent = '';
 
-    renderComments(photo.comments.slice(0, window.constant.numOfDisplayedComments));
+    renderComments(photo.comments.slice(0, numOfDisplayedComments));
 
     window.constant.bodyElement.classList.add('modal-open');
   }
 
   function loadMoreHandler() {
-    window.constant.numOfDisplayedComments += 3;
-    if (window.constant.numOfDisplayedComments >= window.constant.photoDetailedComments.length) {
-      window.constant.numOfDisplayedComments = window.constant.photoDetailedComments.length;
+    numOfDisplayedComments += 3;
+    if (numOfDisplayedComments >= photoDetailedComments.length) {
+      numOfDisplayedComments = photoDetailedComments.length;
     }
     document.querySelector('.social__comments').textContent = '';
 
-    renderComments(window.constant.photoDetailedComments.slice(0, window.constant.numOfDisplayedComments));
+    renderComments(photoDetailedComments.slice(0, numOfDisplayedComments));
   }
 
   function renderComments(comments) {
     var commentsCountShownElement = document.querySelector('.comments-count-shown');
-    commentsCountShownElement.textContent = window.constant.numOfDisplayedComments;
+    commentsCountShownElement.textContent = numOfDisplayedComments;
     var socialCommentsElement = document.querySelector('.social__comments');
     var templateSocialCommentElement = document.querySelector('#social__comment').cloneNode(true);
 

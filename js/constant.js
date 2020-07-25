@@ -38,9 +38,6 @@
   var IMAGE_SCALE_STEP = 25;
   var EFFECT_LEVEL_MAX = 452;
 
-  var numOfDisplayedComments = 5;
-  var photoDetailedComments = [];
-
   var uploadImageEffectLevelElement = document.querySelector('.img-upload__effect-level');
   var scaleControlSmallerElement = document.querySelector('.scale__control--smaller');
   var scaleControlBiggerElement = document.querySelector('.scale__control--bigger');
@@ -90,9 +87,6 @@
     IMAGE_MAX_SCALE: IMAGE_MAX_SCALE,
     IMAGE_SCALE_STEP: IMAGE_SCALE_STEP,
     EFFECT_LEVEL_MAX: EFFECT_LEVEL_MAX,
-
-    numOfDisplayedComments: numOfDisplayedComments,
-    photoDetailedComments: photoDetailedComments,
 
     uploadImageEffectLevelElement: uploadImageEffectLevelElement,
     scaleControlSmallerElement: scaleControlSmallerElement,
