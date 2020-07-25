@@ -22,8 +22,6 @@
   var picturesElements = document.querySelector('.pictures');
   var bodyElement = document.querySelector('body');
 
-  var errorElement = document.querySelector('#error').content.querySelector('.error');
-
   var HASHTAG_MAX_LENGTH = 20;
   var HASHTAG_MIN_LENGTH = 2;
   var HASHTAG_MAX_COUNT = 5;
@@ -38,7 +36,7 @@
   var IMAGE_MIN_SCALE = 25;
   var IMAGE_MAX_SCALE = 100;
   var IMAGE_SCALE_STEP = 25;
-
+  var EFFECT_LEVEL_MAX = 452;
 
   var numOfDisplayedComments = 5;
   var photoDetailedComments = [];
@@ -50,8 +48,9 @@
 
   var effectLevelValueElement = document.querySelector('.effect-level__value');
   var effectsItemElement = document.querySelectorAll('.effects__item');
-  var effectLevelDepthElement = document.querySelectorAll('.effect__level__depth');
+  var effectLevelDepthElement = document.querySelector('.effect-level__depth');
   var effectLevelPinElement = document.querySelector('.effect-level__pin');
+  var effectLevelLineElement = document.querySelector('.effect-level__line');
   var dragging = false;
   var moveListener = null;
 
@@ -76,8 +75,6 @@
     picturesElements: picturesElements,
     bodyElement: bodyElement,
 
-    errorElement: errorElement,
-
     HASHTAG_MAX_LENGTH: HASHTAG_MAX_LENGTH,
     HASHTAG_MIN_LENGTH: HASHTAG_MIN_LENGTH,
     HASHTAG_MAX_COUNT: HASHTAG_MAX_COUNT,
@@ -92,6 +89,7 @@
     IMAGE_MIN_SCALE: IMAGE_MIN_SCALE,
     IMAGE_MAX_SCALE: IMAGE_MAX_SCALE,
     IMAGE_SCALE_STEP: IMAGE_SCALE_STEP,
+    EFFECT_LEVEL_MAX: EFFECT_LEVEL_MAX,
 
     numOfDisplayedComments: numOfDisplayedComments,
     photoDetailedComments: photoDetailedComments,
@@ -105,6 +103,7 @@
     effectsItemElement: effectsItemElement,
     effectLevelDepthElement: effectLevelDepthElement,
     effectLevelPinElement: effectLevelPinElement,
+    effectLevelLineElement: effectLevelLineElement,
     dragging: dragging,
     moveListener: moveListener,
     GET_DATA_URL: GET_DATA_URL,

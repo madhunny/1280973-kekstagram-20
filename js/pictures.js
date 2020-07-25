@@ -16,10 +16,12 @@
   }
 
   function onPhotosLoadError(error) {
-    var loadError = window.constant.errorElement.cloneNode(true);
-    loadError.appendChild(onPhotosLoadError(error));
-
-    window.constant.errorElement.appendChild(loadError);
+    var node = document.createElement('div');
+    node.style = 'position: absolute; top: 10px; margin: 0 auto; width: 100%; background-color: indianred; font-size: 30px; text-align: center; line-height: 50px';
+    var textError = document.createElement('span');
+    textError.textContent = error;
+    node.appendChild(textError);
+    document.body.appendChild(node);
   }
 
   function renderContent(photos) {
@@ -70,7 +72,7 @@
   }
 
   function init() {
-    window.backend.save(renderContent, onPhotosLoadError);
+    window.backend.load(renderContent, onPhotosLoadError);
   }
 
   window.pictures = {
