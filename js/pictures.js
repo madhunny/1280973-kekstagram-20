@@ -1,6 +1,9 @@
 'use strict';
 (function () {
 
+  var numOfDisplayedComments = 5;
+  var photoDetailedComments = [];
+
   function renderPhoto(photo) {
     var photoElement = window.constant.pictureElement.cloneNode(true);
 
@@ -46,9 +49,6 @@
     bigPictureElement.classList.add('hidden');
     window.constant.bodyElement.classList.remove('modal-open');
   }
-
-  var numOfDisplayedComments = 5;
-  var photoDetailedComments = [];
 
   function renderBigPicture(photo) {
     photoDetailedComments = photo.comments;
