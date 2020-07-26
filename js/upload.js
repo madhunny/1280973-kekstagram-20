@@ -27,7 +27,7 @@
   });
 
   function popupEscapePress(evt) {
-    if (evt.key === 'Escape' && evt.target !== window.hashtags.textHashtagsElement) {
+    if (evt.key === 'Escape' && evt.target !== window.constant.textHashtagsElement) {
       evt.preventDefault();
       closePopupImageModification();
     }
