@@ -90,8 +90,8 @@
       window.constant.uploadCancelButtonElement.classList.remove(window.constant.activeEffect);
       window.constant.uploadImagePreviewElement.style.filter = '';
       window.constant.activeEffect = radioElement.value;
-      window.constant.effectLevelPinElement.style.left = 0 + 'px';
-      window.constant.effectLevelDepthElement.style.width = 0 + 'px';
+      window.constant.effectLevelPinElement.style.left = 100 + '%';
+      window.constant.effectLevelDepthElement.style.width = 100 + '%';
       window.constant.uploadImagePreviewElement.classList = '';
       if (window.constant.activeEffect !== 'none') {
         window.constant.uploadImagePreviewElement.classList.add('effects__preview--' + window.constant.activeEffect);
