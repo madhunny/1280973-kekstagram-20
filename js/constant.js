@@ -32,6 +32,7 @@
   var uploadImageOverlayElement = document.querySelector('.img-upload__overlay');
   var uploadImagePreviewElement = document.querySelector('.img-upload__preview img');
   var activeEffect = 'none';
+  var effectLevel = 1;
 
   var IMAGE_MIN_SCALE = 25;
   var IMAGE_MAX_SCALE = 100;
@@ -82,6 +83,7 @@
     uploadImageOverlayElement: uploadImageOverlayElement,
     uploadImagePreviewElement: uploadImagePreviewElement,
     activeEffect: activeEffect,
+    effectLevel: effectLevel,
 
     IMAGE_MIN_SCALE: IMAGE_MIN_SCALE,
     IMAGE_MAX_SCALE: IMAGE_MAX_SCALE,

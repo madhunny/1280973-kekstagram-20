@@ -42,21 +42,23 @@
         x: moveEvt.clientX,
       };
 
-      window.constant.effectLevelPinElement.style.left = (window.constant.effectLevelPinElement.offsetLeft - pinValue.x) + 'px';
-      var data = parseInt(window.constant.effectLevelPinElement.style.left, 10) / window.constant.EFFECT_LEVEL_MAX;
-      if (data < 0) {
-        window.constant.effectLevelPinElement.style.left = 0 + 'px';
-        onMouseUp();
-      } else if (data > 1) {
-        onMouseUp();
-        window.constant.effectLevelPinElement.style.left = window.constant.EFFECT_LEVEL_MAX + 'px';
+      var effectPxValue = window.constant.effectLevelPinElement.offsetLeft - pinValue.x;
+      var effectLevel = effectPxValue / window.constant.EFFECT_LEVEL_MAX;
+
+      if (effectLevel < 0) {
+        effectLevel = 0;
+      } else if (effectLevel > 1) {
+        effectLevel = 1;
       }
 
-      window.constant.effectLevelDepthElement.style.width = window.constant.effectLevelPinElement.style.left;
+      setEffectLevel(effectLevel);
+      if (effectLevel === 0 || effectLevel === 1) {
+        onMouseUp();
+      }
     };
 
     var onMouseUp = function () {
-      renderEffectLevel(window.constant.activeEffect);
+      renderEffectLevel(window.constant.activeEffect, window.constant.effectLevel);
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
@@ -66,58 +68,74 @@
 
   });
 
-  function renderEffectLevel(activeEffect) {
-    var inputValue = parseInt(window.constant.effectLevelPinElement.style.left, 10) / window.constant.EFFECT_LEVEL_MAX;
+  function setEffectLevel(effectLevel) {
+    window.constant.effectLevel = effectLevel;
+    window.constant.effectLevelPinElement.style.left = effectLevel * window.constant.EFFECT_LEVEL_MAX + 'px';
+    window.constant.effectLevelDepthElement.style.width = window.constant.effectLevelPinElement.style.left;
+  }
+
+  function renderEffectLevel(activeEffect, effectLevel) {
     switch (activeEffect) {
       case 'none': window.constant.uploadImagePreviewElement.style.filter = '';
         break;
-      case 'chrome': window.constant.uploadImagePreviewElement.style.filter = 'grayscale(' + inputValue + ')';
+      case 'chrome': window.constant.uploadImagePreviewElement.style.filter = 'grayscale(' + effectLevel + ')';
         break;
-      case 'sepia': window.constant.uploadImagePreviewElement.style.filter = 'sepia(' + inputValue + ')';
+      case 'sepia': window.constant.uploadImagePreviewElement.style.filter = 'sepia(' + effectLevel + ')';
         break;
-      case 'marvin': window.constant.uploadImagePreviewElement.style.filter = 'invert(' + inputValue * 100 + '%)';
+      case 'marvin': window.constant.uploadImagePreviewElement.style.filter = 'invert(' + effectLevel * 100 + '%)';
         break;
-      case 'phobos': window.constant.uploadImagePreviewElement.style.filter = 'blur(' + 3 * inputValue + 'px)';
+      case 'phobos': window.constant.uploadImagePreviewElement.style.filter = 'blur(' + 3 * effectLevel + 'px)';
         break;
-      case 'heat': window.constant.uploadImagePreviewElement.style.filter = 'brightness(' + (1 + inputValue * 2) + ')';
+      case 'heat': window.constant.uploadImagePreviewElement.style.filter = 'brightness(' + (1 + effectLevel * 2) + ')';
         break;
     }
   }
 
-  function getRadioValue(item) {
+  function applyEffect(activeEffect) {
+    window.constant.uploadCancelButtonElement.classList.remove();
+    window.constant.uploadImagePreviewElement.style.filter = '';
+    window.constant.activeEffect = activeEffect;
+    window.constant.uploadImagePreviewElement.classList = '';
+    if (activeEffect !== 'none') {
+      window.constant.uploadImagePreviewElement.classList.add('effects__preview--' + activeEffect);
+    }
+
+    if (activeEffect === 'none') {
+      window.constant.uploadImageEffectLevelElement.classList.add('hidden');
+    } else {
+      window.constant.uploadImageEffectLevelElement.classList.remove('hidden');
+      renderEffectLevel(activeEffect, window.constant.effectLevel);
+    }
+  }
+
+  function setupEffect(item) {
     var radioElement = item.querySelector('.effects__radio');
     radioElement.addEventListener('click', function () {
-      window.constant.uploadCancelButtonElement.classList.remove(window.constant.activeEffect);
-      window.constant.uploadImagePreviewElement.style.filter = '';
-      window.constant.activeEffect = radioElement.value;
-      window.constant.effectLevelPinElement.style.left = 452 + 'px';
-      window.constant.effectLevelDepthElement.style.width = 452 + 'px';
-      window.constant.uploadImagePreviewElement.classList = '';
-      if (window.constant.activeEffect !== 'none') {
-        window.constant.uploadImagePreviewElement.classList.add('effects__preview--' + window.constant.activeEffect);
-      }
-
-      if (window.constant.activeEffect === 'none') {
-        window.constant.uploadImageEffectLevelElement.classList.add('hidden');
-      } else {
-        window.constant.uploadImageEffectLevelElement.classList.remove('hidden');
-        renderEffectLevel(window.constant.activeEffect);
-      }
+      setEffectLevel(1);
+      applyEffect(radioElement.value);
     });
   }
 
   function modifyImageEffect() {
     window.constant.effectsItemElement.forEach(function (item) {
-      getRadioValue(item);
+      setupEffect(item);
     });
   }
 
+  function resetEffect() {
+    setEffectLevel(1);
+    applyEffect('none');
+  }
+
   function init() {
+    resetEffect();
     modifyImageEffect();
   }
 
   window.effects = {
-    init: init
+    init: init,
+    resetEffect: resetEffect,
+    scaleImage: scaleImage
   };
 
 })();

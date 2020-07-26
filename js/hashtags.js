@@ -6,14 +6,21 @@
     var hashtagSymbols = /^#[a-zа-я0-9]*$/i;
     window.constant.textHashtagsElement.setCustomValidity('');
 
+    if (hashtag.length > window.constant.HASHTAG_MAX_COUNT) {
+      window.constant.textHashtagsElement.setCustomValidity('Нельзя указать больше пяти хэш-тегов;');
+    }
+
     for (var i = 0; i < hashtags.length; i++) {
       var hashtag = hashtags[i];
+
       for (var j = i + 1; j < hashtags.length; j++) {
         if (hashtag.toLowerCase() === hashtags[j].toLowerCase()) {
           window.constant.textHashtagsElement.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды;');
           return;
         }
+
       }
+
       if (hashtag[0] !== '#') {
         window.constant.textHashtagsElement.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
         return;
@@ -29,10 +36,8 @@
       } else if (hashtag.indexOf('#', 1) > 0) {
         window.constant.textHashtagsElement.setCustomValidity('Хэш-теги разделяются пробелами;');
         return;
-      } else if (hashtag.length > window.constant.HASHTAG_MAX_COUNT) {
-        window.constant.textHashtagsElement.setCustomValidity('Нельзя указать больше пяти хэш-тегов;');
-        return;
       }
+
     }
   }
 

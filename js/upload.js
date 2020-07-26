@@ -4,6 +4,7 @@
   function openPopupImageModification() {
     var file = window.constant.uploadFileElement.files[0];
     window.constant.uploadImagePreviewElement.src = URL.createObjectURL(file);
+    window.effects.scaleImage(100);
     window.constant.uploadImageOverlayElement.classList.remove('hidden');
     document.body.classList.add('modal-open');
     document.addEventListener('keydown', popupEscapePress);
@@ -13,7 +14,7 @@
     window.constant.uploadImageOverlayElement.classList.add('hidden');
     document.body.classList.remove('modal-open');
     window.constant.uploadFileElement.value = '';
-    window.constant.uploadImagePreviewElement.classList.remove(window.constant.activeEffect);
+    window.effects.resetEffect();
     document.removeEventListener('keydown', popupEscapePress);
   }
 
