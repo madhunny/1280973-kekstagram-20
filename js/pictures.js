@@ -33,6 +33,7 @@
     photos.forEach(function (photo) {
       fragment.appendChild(renderPhoto(photo));
     });
+
     window.constant.picturesElements.appendChild(fragment);
   }
 
