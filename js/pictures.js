@@ -99,10 +99,10 @@
         break;
       }
       case 'filter-random': {
-        var copy = window.constant.loadedPhotos.map(function (photo) {
+        var copyRandom = window.constant.loadedPhotos.map(function (photo) {
           return photo;
         });
-        var shuffled = copy.sort(function () {
+        var shuffled = copyRandom.sort(function () {
           return 0.5 - Math.random();
         });
         var selected = shuffled.slice(0, window.constant.NUMBERS_RANDOM_PHOTOS);
@@ -110,10 +110,10 @@
         break;
       }
       case 'filter-discussed': {
-        copy(function (photo) {
+        var copyDiscussed = window.constant.loadedPhotos.map(function (photo) {
           return photo;
         });
-        var sorted = copy.sort(function (photoA, photoB) {
+        var sorted = copyDiscussed.sort(function (photoA, photoB) {
           return photoB.comments.length - photoA.comments.length;
         });
         renderContent(sorted);
