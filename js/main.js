@@ -3,4 +3,5 @@
   window.hashtags.init();
   window.pictures.init();
   window.effects.init();
+  window.upload.init();
 })();

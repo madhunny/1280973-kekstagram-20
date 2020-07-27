@@ -2,7 +2,9 @@
 (function () {
 
   var NUMBERS_PHOTOS = 25;
-  var NUMBERS_COMMENTS = 3;
+  var NUMBERS_RANDOM_PHOTOS = 10;
+  var NUMBERS_INITIAL_COMMENTS = 5;
+  var NUMBERS_MORE_COMMENTS = 5;
   var AVATAR_MIN = 1;
   var AVATAR_MAX = 6;
   var LIKES_MIN = 15;
@@ -21,17 +23,28 @@
   var pictureElement = document.querySelector('#picture').content.querySelector('.picture');
   var picturesElements = document.querySelector('.pictures');
   var bodyElement = document.querySelector('body');
+  var commentsLoaderElement = document.querySelector('.comments-loader');
+  var numOfDisplayedComments = 0;
+  var photoDetailedComments = [];
+  var loadedPhotos = [];
 
   var HASHTAG_MAX_LENGTH = 20;
   var HASHTAG_MIN_LENGTH = 2;
   var HASHTAG_MAX_COUNT = 5;
   var textHashtagsElement = document.querySelector('.text__hashtags');
+  var textDescriptionElement = document.querySelector('.text__description');
 
   var uploadFileElement = document.querySelector('#upload-file');
   var uploadCancelButtonElement = document.querySelector('#upload-cancel');
   var uploadImageOverlayElement = document.querySelector('.img-upload__overlay');
   var uploadImagePreviewElement = document.querySelector('.img-upload__preview img');
+  var bigPictureOverlayElement = document.querySelector('.big-picture.overlay');
   var activeEffect = 'none';
+  var effectLevel = 1;
+  var filterDiscussedElement = document.querySelector('#filter-discussed');
+  var filterRandomElement = document.querySelector('#filter-random');
+  var filterDefaultElement = document.querySelector('#filter-default');
+  var filterButtonElements = document.querySelectorAll('.img-filters__button');
 
   var IMAGE_MIN_SCALE = 25;
   var IMAGE_MAX_SCALE = 100;
@@ -39,6 +52,7 @@
   var EFFECT_LEVEL_MAX = 452;
 
   var uploadImageEffectLevelElement = document.querySelector('.img-upload__effect-level');
+  var uploadImageFormElement = document.querySelector('.img-upload__form');
   var scaleControlSmallerElement = document.querySelector('.scale__control--smaller');
   var scaleControlBiggerElement = document.querySelector('.scale__control--bigger');
   var scaleControlValueElement = document.querySelector('.scale__control--value');
@@ -60,7 +74,9 @@
 
   window.constant = {
     NUMBERS_PHOTOS: NUMBERS_PHOTOS,
-    NUMBERS_COMMENTS: NUMBERS_COMMENTS,
+    NUMBERS_RANDOM_PHOTOS: NUMBERS_RANDOM_PHOTOS,
+    NUMBERS_INITIAL_COMMENTS: NUMBERS_INITIAL_COMMENTS,
+    NUMBERS_MORE_COMMENTS: NUMBERS_MORE_COMMENTS,
     AVATAR_MIN: AVATAR_MIN,
     AVATAR_MAX: AVATAR_MAX,
     LIKES_MIN: LIKES_MIN,
@@ -71,17 +87,29 @@
     pictureElement: pictureElement,
     picturesElements: picturesElements,
     bodyElement: bodyElement,
+    commentsLoaderElement: commentsLoaderElement,
+    numOfDisplayedComments: numOfDisplayedComments,
+    photoDetailedComments: photoDetailedComments,
+    loadedPhotos: loadedPhotos,
 
     HASHTAG_MAX_LENGTH: HASHTAG_MAX_LENGTH,
     HASHTAG_MIN_LENGTH: HASHTAG_MIN_LENGTH,
     HASHTAG_MAX_COUNT: HASHTAG_MAX_COUNT,
     textHashtagsElement: textHashtagsElement,
+    textDescriptionElement: textDescriptionElement,
+
 
     uploadFileElement: uploadFileElement,
     uploadCancelButtonElement: uploadCancelButtonElement,
     uploadImageOverlayElement: uploadImageOverlayElement,
     uploadImagePreviewElement: uploadImagePreviewElement,
+    bigPictureOverlayElement: bigPictureOverlayElement,
     activeEffect: activeEffect,
+    effectLevel: effectLevel,
+    filterDiscussedElement: filterDiscussedElement,
+    filterRandomElement: filterRandomElement,
+    filterDefaultElement: filterDefaultElement,
+    filterButtonElements: filterButtonElements,
 
     IMAGE_MIN_SCALE: IMAGE_MIN_SCALE,
     IMAGE_MAX_SCALE: IMAGE_MAX_SCALE,
@@ -89,6 +117,7 @@
     EFFECT_LEVEL_MAX: EFFECT_LEVEL_MAX,
 
     uploadImageEffectLevelElement: uploadImageEffectLevelElement,
+    uploadImageFormElement: uploadImageFormElement,
     scaleControlSmallerElement: scaleControlSmallerElement,
     scaleControlBiggerElement: scaleControlBiggerElement,
     scaleControlValueElement: scaleControlValueElement,
@@ -100,6 +129,7 @@
     effectLevelLineElement: effectLevelLineElement,
     dragging: dragging,
     moveListener: moveListener,
+
     GET_DATA_URL: GET_DATA_URL,
     SEND_DATA_URL: SEND_DATA_URL,
     TIME_OUT: TIME_OUT,
