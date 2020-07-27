@@ -114,7 +114,7 @@
           return photo;
         });
         var sorted = copy.sort(function (photoA, photoB) {
-          return (photoB.comments.length - photoA.comments.length);
+          return photoB.comments.length - photoA.comments.length;
         });
         renderContent(sorted);
         break;
