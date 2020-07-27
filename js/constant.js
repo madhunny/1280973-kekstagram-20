@@ -47,7 +47,7 @@
   var EFFECT_LEVEL_MAX = 452;
 
   var uploadImageEffectLevelElement = document.querySelector('.img-upload__effect-level');
-  var uploadImageFormElement = document.querySelector('img-upload__form');
+  var uploadImageFormElement = document.querySelector('.img-upload__form');
   var scaleControlSmallerElement = document.querySelector('.scale__control--smaller');
   var scaleControlBiggerElement = document.querySelector('.scale__control--bigger');
   var scaleControlValueElement = document.querySelector('.scale__control--value');
