@@ -27,7 +27,7 @@
     photos.forEach(function (photo) {
       fragment.appendChild(renderPhoto(photo));
     });
-    window.constant.pictureElement.querySelectorAll('.picture').forEach(function (element) {
+    window.constant.picturesElements.querySelectorAll('.picture').forEach(function (element) {
       element.remove();
     });
 
