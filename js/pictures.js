@@ -110,7 +110,7 @@
         break;
       }
       case 'filter-discussed': {
-        copy.map(function (photo) {
+        copy(function (photo) {
           return photo;
         });
         var sorted = copy.sort(function (photoA, photoB) {
@@ -123,15 +123,14 @@
   }
 
   function initPictureFilters() {
-    var imageFilterButtonElement = document.querySelector('#img-filter__button');
     var changeFilterDebounce = window.utils.debounce(function (element) {
       changeFilter(element.id);
-      imageFilterButtonElement.forEach(function (el) {
+      document.querySelectorAll('.img-filters__button').forEach(function (el) {
         el.classList.remove('img-filter__button--active');
       });
       element.classList.add('img-filter__button--active');
     }, 500, false);
-    imageFilterButtonElement.forEach(function (element) {
+    document.querySelectorAll('.img-filters__button').forEach(function (element) {
       element.addEventListener('click', function () {
         changeFilterDebounce(element);
       });
