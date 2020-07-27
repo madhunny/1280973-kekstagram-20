@@ -2,7 +2,9 @@
 (function () {
 
   function popupEscapePress(evt) {
-    if (evt.key === 'Escape' && evt.target !== window.constant.textHashtagsElement) {
+    if (evt.key === 'Escape' &&
+      (evt.target !== window.constant.textHashtagsElement && evt.target !== window.constant.textDescriptionElement)
+    ) {
       evt.preventDefault();
       closePopupImageModification();
     }

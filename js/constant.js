@@ -32,6 +32,7 @@
   var HASHTAG_MIN_LENGTH = 2;
   var HASHTAG_MAX_COUNT = 5;
   var textHashtagsElement = document.querySelector('.text__hashtags');
+  var textDescriptionElement = document.querySelector('.text__description');
 
   var uploadFileElement = document.querySelector('#upload-file');
   var uploadCancelButtonElement = document.querySelector('#upload-cancel');
@@ -95,6 +96,8 @@
     HASHTAG_MIN_LENGTH: HASHTAG_MIN_LENGTH,
     HASHTAG_MAX_COUNT: HASHTAG_MAX_COUNT,
     textHashtagsElement: textHashtagsElement,
+    textDescriptionElement: textDescriptionElement,
+
 
     uploadFileElement: uploadFileElement,
     uploadCancelButtonElement: uploadCancelButtonElement,
