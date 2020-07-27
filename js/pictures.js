@@ -126,9 +126,9 @@
     var changeFilterDebounce = window.utils.debounce(function (element) {
       changeFilter(element.id);
       document.querySelectorAll('.img-filters__button').forEach(function (el) {
-        el.classList.remove('img-filter__button--active');
+        el.classList.remove('img-filters__button--active');
       });
-      element.classList.add('img-filter__button--active');
+      element.classList.add('img-filters__button--active');
     }, 500, false);
     document.querySelectorAll('.img-filters__button').forEach(function (element) {
       element.addEventListener('click', function () {

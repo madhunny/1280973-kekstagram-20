@@ -40,6 +40,10 @@
   var bigPictureOverlayElement = document.querySelector('.big-picture.overlay');
   var activeEffect = 'none';
   var effectLevel = 1;
+  var filterDiscussedElement = document.querySelector('#filter-discussed');
+  var filterRandomElement = document.querySelector('#filter-random');
+  var filterDefaultElement = document.querySelector('#filter-default');
+  var filterButtonElements = document.querySelectorAll('.img-filters__button');
 
   var IMAGE_MIN_SCALE = 25;
   var IMAGE_MAX_SCALE = 100;
@@ -99,6 +103,10 @@
     bigPictureOverlayElement: bigPictureOverlayElement,
     activeEffect: activeEffect,
     effectLevel: effectLevel,
+    filterDiscussedElement: filterDiscussedElement,
+    filterRandomElement: filterRandomElement,
+    filterDefaultElement: filterDefaultElement,
+    filterButtonElements: filterButtonElements,
 
     IMAGE_MIN_SCALE: IMAGE_MIN_SCALE,
     IMAGE_MAX_SCALE: IMAGE_MAX_SCALE,
