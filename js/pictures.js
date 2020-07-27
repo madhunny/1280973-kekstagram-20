@@ -27,6 +27,10 @@
     photos.forEach(function (photo) {
       fragment.appendChild(renderPhoto(photo));
     });
+    window.constant.pictureElement.querySelectorAll('.picture'.forEach(function (element) {
+      element.remove();
+    }));
+
     window.constant.picturesElements.appendChild(fragment);
   }
 
@@ -88,6 +92,60 @@
     });
   }
 
+  function changeFilter(filterId) {
+    switch (filterId) {
+      case 'filter-default': {
+        renderContent(window.constant.loadedPhotos);
+        break;
+      }
+      case 'filter-random': {
+        var copy = window.constant.loadedPhotos.map(function (photo) {
+          return photo;
+        });
+        var shuffled = copy.sort(function () {
+          return 0.5 - Math.random();
+        });
+        var selected = shuffled.slice(0, window.constant.NUMBERS_RANDOM_PHOTOS);
+        renderContent(selected);
+        break;
+      }
+      case 'filter-discussed': {
+        copy.map(function (photo) {
+          return photo;
+        });
+        var sorted = copy.sort(function (photoA, photoB) {
+          return (photoB.comments.length - photoA.comments.length);
+        });
+        renderContent(sorted);
+        break;
+      }
+    }
+  }
+
+  function initPictureFilters() {
+    var imageFilterButtonElement = document.querySelector('#img-filter__button');
+    var changeFilterDebounce = window.utils.debounce(function (element) {
+      changeFilter(element.id);
+      imageFilterButtonElement.forEach(function (el) {
+        el.classList.remove('img-filter__button--active');
+      });
+      element.classList.add('img-filter__button--active');
+    }, 500, false);
+    imageFilterButtonElement.forEach(function (element) {
+      element.addEventListener('click', function () {
+        changeFilterDebounce(element);
+      });
+    });
+  }
+
+  function loadPhotos() {
+    window.backend.load(function (photos) {
+      document.querySelector('.img-filters').classList.remove('img-filters--inactive');
+      window.constant.loadedPhotos = photos;
+      renderContent(photos);
+    }, onPhotosLoadError);
+  }
+
   function init() {
     var pictureCancelElement = document.querySelector('#picture-cancel');
     pictureCancelElement.addEventListener('click', closeBigPicture);
@@ -101,7 +159,8 @@
         closeBigPicture();
       }
     });
-    window.backend.load(renderContent, onPhotosLoadError);
+    loadPhotos();
+    initPictureFilters();
   }
 
   window.pictures = {

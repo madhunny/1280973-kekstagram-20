@@ -2,6 +2,7 @@
 (function () {
 
   var NUMBERS_PHOTOS = 25;
+  var NUMBERS_RANDOM_PHOTOS = 10;
   var NUMBERS_INITIAL_COMMENTS = 5;
   var NUMBERS_MORE_COMMENTS = 5;
   var AVATAR_MIN = 1;
@@ -25,6 +26,7 @@
   var commentsLoaderElement = document.querySelector('.comments-loader');
   var numOfDisplayedComments = 0;
   var photoDetailedComments = [];
+  var loadedPhotos = [];
 
   var HASHTAG_MAX_LENGTH = 20;
   var HASHTAG_MIN_LENGTH = 2;
@@ -67,6 +69,7 @@
 
   window.constant = {
     NUMBERS_PHOTOS: NUMBERS_PHOTOS,
+    NUMBERS_RANDOM_PHOTOS: NUMBERS_RANDOM_PHOTOS,
     NUMBERS_INITIAL_COMMENTS: NUMBERS_INITIAL_COMMENTS,
     NUMBERS_MORE_COMMENTS: NUMBERS_MORE_COMMENTS,
     AVATAR_MIN: AVATAR_MIN,
@@ -82,6 +85,7 @@
     commentsLoaderElement: commentsLoaderElement,
     numOfDisplayedComments: numOfDisplayedComments,
     photoDetailedComments: photoDetailedComments,
+    loadedPhotos: loadedPhotos,
 
     HASHTAG_MAX_LENGTH: HASHTAG_MAX_LENGTH,
     HASHTAG_MIN_LENGTH: HASHTAG_MIN_LENGTH,
