@@ -67,7 +67,22 @@
         successMessageElement.remove();
       }
     });
+
+    document.addEventListener('keydown', function (evt) {
+      if (evt.key === 'Escape') {
+        var successMessageElement = document.querySelector('section.success');
+        if (successMessageElement) {
+          successMessageElement.remove();
+          return;
+        }
+        var errorMessageElement = document.querySelector('section.error');
+        if (errorMessageElement) {
+          errorMessageElement.remove();
+        }
+      }
+    });
   }
+
 
   window.upload = {
     init: init
