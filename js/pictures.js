@@ -1,12 +1,8 @@
 'use strict';
 (function () {
 
-  var numOfDisplayedComments = 5;
-  var photoDetailedComments = [];
-
   function renderPhoto(photo) {
     var photoElement = window.constant.pictureElement.cloneNode(true);
-
     photoElement.querySelector('.picture__img').src = photo.url;
     photoElement.querySelector('.picture__likes').textContent = photo.likes;
     photoElement.querySelector('.picture__comments').textContent = photo.comments.length;
@@ -14,7 +10,6 @@
       ev.preventDefault();
       renderBigPicture(photo);
     });
-
     return photoElement;
   }
 
@@ -29,11 +24,9 @@
 
   function renderContent(photos) {
     var fragment = document.createDocumentFragment();
-
     photos.forEach(function (photo) {
       fragment.appendChild(renderPhoto(photo));
     });
-
     window.constant.picturesElements.appendChild(fragment);
   }
 
@@ -52,51 +45,62 @@
   }
 
   function renderBigPicture(photo) {
-    photoDetailedComments = photo.comments;
+    window.constant.photoDetailedComments = photo.comments;
     var bigPictureElement = document.querySelector('.big-picture');
     var bigPictureImgElement = document.querySelector('.big-picture__img img');
     var likesCountElement = document.querySelector('.likes-count');
     var socialCaptionElement = document.querySelector('.social__caption');
     var commentsCountElement = document.querySelector('.comments-count');
 
-    document.querySelector('#picture-cancel').addEventListener('click', closeBigPicture);
-    document.querySelector('.comments-loader').addEventListener('click', loadMoreHandler);
+    window.constant.commentsLoaderElement.classList.remove('hidden');
+    window.constant.commentsLoaderElement.addEventListener('click', loadMoreHandler);
 
     bigPictureElement.classList.remove('hidden');
     bigPictureImgElement.src = photo.url;
     likesCountElement.textContent = photo.likes;
     socialCaptionElement.textContent = photo.description;
-    commentsCountElement.textContent = photo.comments.length;
+    commentsCountElement.textContent = window.constant.photoDetailedComments.length;
 
-    document.querySelector('.social__comments').textContent = '';
-
-    renderComments(photo.comments.slice(0, numOfDisplayedComments));
+    var displayedComments = window.constant.photoDetailedComments.slice(0, window.constant.NUMBERS_INITIAL_COMMENTS);
+    window.constant.numOfDisplayedComments = displayedComments.length;
+    renderComments(displayedComments);
 
     window.constant.bodyElement.classList.add('modal-open');
   }
 
   function loadMoreHandler() {
-    numOfDisplayedComments += 3;
-    if (numOfDisplayedComments >= photoDetailedComments.length) {
-      numOfDisplayedComments = photoDetailedComments.length;
+    window.constant.numOfDisplayedComments += window.constant.NUMBERS_MORE_COMMENTS;
+    if (window.constant.numOfDisplayedComments >= window.constant.photoDetailedComments.length) {
+      window.constant.numOfDisplayedComments = window.constant.photoDetailedComments.length;
+      window.constant.commentsLoaderElement.classList.add('hidden');
     }
-    document.querySelector('.social__comments').textContent = '';
-
-    renderComments(photoDetailedComments.slice(0, numOfDisplayedComments));
+    renderComments(window.constant.photoDetailedComments.slice(0, window.constant.numOfDisplayedComments));
   }
 
   function renderComments(comments) {
     var commentsCountShownElement = document.querySelector('.comments-count-shown');
-    commentsCountShownElement.textContent = numOfDisplayedComments;
+    commentsCountShownElement.textContent = window.constant.numOfDisplayedComments;
     var socialCommentsElement = document.querySelector('.social__comments');
+    socialCommentsElement.textContent = '';
     var templateSocialCommentElement = document.querySelector('#social__comment').cloneNode(true);
-
     comments.forEach(function (comment) {
       socialCommentsElement.appendChild(renderCommentForBigPicture(templateSocialCommentElement, comment));
     });
   }
 
   function init() {
+    var pictureCancelElement = document.querySelector('#picture-cancel');
+    pictureCancelElement.addEventListener('click', closeBigPicture);
+    document.addEventListener('keydown', function (evt) {
+      if (evt.key === 'Escape') {
+        closeBigPicture();
+      }
+    });
+    document.addEventListener('click', function (evt) {
+      if (evt.target === window.constant.bigPictureOverlayElement) {
+        closeBigPicture();
+      }
+    });
     window.backend.load(renderContent, onPhotosLoadError);
   }
 

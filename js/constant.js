@@ -2,7 +2,8 @@
 (function () {
 
   var NUMBERS_PHOTOS = 25;
-  var NUMBERS_COMMENTS = 3;
+  var NUMBERS_INITIAL_COMMENTS = 5;
+  var NUMBERS_MORE_COMMENTS = 5;
   var AVATAR_MIN = 1;
   var AVATAR_MAX = 6;
   var LIKES_MIN = 15;
@@ -21,6 +22,9 @@
   var pictureElement = document.querySelector('#picture').content.querySelector('.picture');
   var picturesElements = document.querySelector('.pictures');
   var bodyElement = document.querySelector('body');
+  var commentsLoaderElement = document.querySelector('.comments-loader');
+  var numOfDisplayedComments = 0;
+  var photoDetailedComments = [];
 
   var HASHTAG_MAX_LENGTH = 20;
   var HASHTAG_MIN_LENGTH = 2;
@@ -31,6 +35,7 @@
   var uploadCancelButtonElement = document.querySelector('#upload-cancel');
   var uploadImageOverlayElement = document.querySelector('.img-upload__overlay');
   var uploadImagePreviewElement = document.querySelector('.img-upload__preview img');
+  var bigPictureOverlayElement = document.querySelector('.big-picture.overlay');
   var activeEffect = 'none';
   var effectLevel = 1;
 
@@ -40,6 +45,7 @@
   var EFFECT_LEVEL_MAX = 452;
 
   var uploadImageEffectLevelElement = document.querySelector('.img-upload__effect-level');
+  var uploadImageFormElement = document.querySelector('img-upload__form');
   var scaleControlSmallerElement = document.querySelector('.scale__control--smaller');
   var scaleControlBiggerElement = document.querySelector('.scale__control--bigger');
   var scaleControlValueElement = document.querySelector('.scale__control--value');
@@ -61,7 +67,8 @@
 
   window.constant = {
     NUMBERS_PHOTOS: NUMBERS_PHOTOS,
-    NUMBERS_COMMENTS: NUMBERS_COMMENTS,
+    NUMBERS_INITIAL_COMMENTS: NUMBERS_INITIAL_COMMENTS,
+    NUMBERS_MORE_COMMENTS: NUMBERS_MORE_COMMENTS,
     AVATAR_MIN: AVATAR_MIN,
     AVATAR_MAX: AVATAR_MAX,
     LIKES_MIN: LIKES_MIN,
@@ -72,6 +79,9 @@
     pictureElement: pictureElement,
     picturesElements: picturesElements,
     bodyElement: bodyElement,
+    commentsLoaderElement: commentsLoaderElement,
+    numOfDisplayedComments: numOfDisplayedComments,
+    photoDetailedComments: photoDetailedComments,
 
     HASHTAG_MAX_LENGTH: HASHTAG_MAX_LENGTH,
     HASHTAG_MIN_LENGTH: HASHTAG_MIN_LENGTH,
@@ -82,6 +92,7 @@
     uploadCancelButtonElement: uploadCancelButtonElement,
     uploadImageOverlayElement: uploadImageOverlayElement,
     uploadImagePreviewElement: uploadImagePreviewElement,
+    bigPictureOverlayElement: bigPictureOverlayElement,
     activeEffect: activeEffect,
     effectLevel: effectLevel,
 
@@ -91,6 +102,7 @@
     EFFECT_LEVEL_MAX: EFFECT_LEVEL_MAX,
 
     uploadImageEffectLevelElement: uploadImageEffectLevelElement,
+    uploadImageFormElement: uploadImageFormElement,
     scaleControlSmallerElement: scaleControlSmallerElement,
     scaleControlBiggerElement: scaleControlBiggerElement,
     scaleControlValueElement: scaleControlValueElement,
@@ -102,6 +114,7 @@
     effectLevelLineElement: effectLevelLineElement,
     dragging: dragging,
     moveListener: moveListener,
+
     GET_DATA_URL: GET_DATA_URL,
     SEND_DATA_URL: SEND_DATA_URL,
     TIME_OUT: TIME_OUT,
