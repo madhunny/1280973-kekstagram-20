@@ -57,7 +57,7 @@
     var commentsCountElement = document.querySelector('.comments-count');
 
     window.constant.commentsLoaderElement.classList.remove('hidden');
-    window.constant.commentsLoaderElement.addEventListener('click', loadMoreHandler);
+    window.constant.commentsLoaderElement.addEventListener('click', onLoadMoreClick);
 
     bigPictureElement.classList.remove('hidden');
     bigPictureImgElement.src = photo.url;
@@ -72,7 +72,7 @@
     window.constant.bodyElement.classList.add('modal-open');
   }
 
-  function loadMoreHandler() {
+  function onLoadMoreClick() {
     window.constant.numOfDisplayedComments += window.constant.NUMBERS_MORE_COMMENTS;
     if (window.constant.numOfDisplayedComments >= window.constant.photoDetailedComments.length) {
       window.constant.numOfDisplayedComments = window.constant.photoDetailedComments.length;
@@ -99,7 +99,7 @@
         break;
       }
       case 'filter-random': {
-        var copyRandom = window.constant.loadedPhotos.map(function (photo) {
+        var copyRandom = window.constant.loadedPhotos.slice(function (photo) {
           return photo;
         });
         var shuffled = copyRandom.sort(function () {
@@ -110,7 +110,7 @@
         break;
       }
       case 'filter-discussed': {
-        var copyDiscussed = window.constant.loadedPhotos.map(function (photo) {
+        var copyDiscussed = window.constant.loadedPhotos.slice(function (photo) {
           return photo;
         });
         var sorted = copyDiscussed.sort(function (photoA, photoB) {

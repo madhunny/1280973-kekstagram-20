@@ -122,19 +122,19 @@
     });
   }
 
-  function resetEffect() {
+  function reset() {
     setEffectLevel(1);
     applyEffect('none');
   }
 
   function init() {
-    resetEffect();
+    reset();
     modifyImageEffect();
   }
 
   window.effects = {
     init: init,
-    resetEffect: resetEffect,
+    reset: reset,
     scaleImage: scaleImage
   };
 
