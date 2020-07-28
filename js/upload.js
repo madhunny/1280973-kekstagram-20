@@ -6,7 +6,7 @@
       (evt.target !== window.constant.textHashtagsElement && evt.target !== window.constant.textDescriptionElement)
     ) {
       evt.preventDefault();
-      closePopupImageModification();
+      closeAndReset();
     }
   }
 
@@ -82,17 +82,21 @@
   function closePopupImageModification() {
     window.constant.uploadImageOverlayElement.classList.add('hidden');
     document.body.classList.remove('modal-open');
-    window.constant.uploadFileElement.value = '';
-    window.effects.resetEffect();
     document.removeEventListener('keydown', popupEscapePress);
   }
 
   function uploadSuccess() {
+    closeAndReset();
+    openSuccessMessage();
+  }
+
+  function closeAndReset() {
     closePopupImageModification();
+    window.effects.reset();
+    window.constant.uploadFileElement.value = '';
     window.constant.textDescriptionElement.value = '';
     window.constant.textHashtagsElement.value = '';
     window.pictures.changeFilter('filter-default');
-    openSuccessMessage();
   }
 
   function uploadError() {
@@ -102,7 +106,7 @@
 
   function init() {
     window.constant.uploadFileElement.addEventListener('change', openPopupImageModification);
-    window.constant.uploadCancelButtonElement.addEventListener('click', closePopupImageModification);
+    window.constant.uploadCancelButtonElement.addEventListener('click', closeAndReset);
     window.constant.uploadImageFormElement.addEventListener('submit', function (evt) {
       evt.preventDefault();
       var formData = new FormData(window.constant.uploadImageFormElement);
