@@ -1,6 +1,18 @@
 'use strict';
 (function () {
 
+  function onKeyDownCloseBigPicture(evt) {
+    if (evt.key === 'Escape') {
+      closeBigPicture();
+    }
+  }
+
+  function onClickCloseBigPicture(evt) {
+    if (evt.target === window.constant.bigPictureOverlayElement) {
+      closeBigPicture();
+    }
+  }
+
   function renderPhoto(photo) {
     var photoElement = window.constant.pictureElement.cloneNode(true);
     photoElement.querySelector('.picture__img').src = photo.url;
@@ -46,6 +58,8 @@
     var bigPictureElement = document.querySelector('.big-picture');
     bigPictureElement.classList.add('hidden');
     window.constant.bodyElement.classList.remove('modal-open');
+    document.removeEventListener('keydown', onKeyDownCloseBigPicture);
+    document.removeEventListener('click', onClickCloseBigPicture);
   }
 
   function renderBigPicture(photo) {
@@ -58,6 +72,8 @@
 
     window.constant.commentsLoaderElement.classList.remove('hidden');
     window.constant.commentsLoaderElement.addEventListener('click', onLoadMoreClick);
+    document.addEventListener('keydown', onKeyDownCloseBigPicture);
+    document.addEventListener('click', onClickCloseBigPicture);
 
     bigPictureElement.classList.remove('hidden');
     bigPictureImgElement.src = photo.url;
@@ -93,6 +109,10 @@
   }
 
   function changeFilter(filterId) {
+    document.querySelectorAll('.img-filters__button').forEach(function (el) {
+      el.classList.remove('img-filters__button--active');
+    });
+
     switch (filterId) {
       case 'filter-default': {
         renderContent(window.constant.loadedPhotos);
@@ -120,15 +140,12 @@
         break;
       }
     }
+    document.getElementById(filterId).classList.add('img-filters__button--active');
   }
 
   function initPictureFilters() {
     var changeFilterDebounce = window.utils.debounce(function (element) {
       changeFilter(element.id);
-      document.querySelectorAll('.img-filters__button').forEach(function (el) {
-        el.classList.remove('img-filters__button--active');
-      });
-      element.classList.add('img-filters__button--active');
     }, 500, false);
     document.querySelectorAll('.img-filters__button').forEach(function (element) {
       element.addEventListener('click', function () {
@@ -148,21 +165,12 @@
   function init() {
     var pictureCancelElement = document.querySelector('#picture-cancel');
     pictureCancelElement.addEventListener('click', closeBigPicture);
-    document.addEventListener('keydown', function (evt) {
-      if (evt.key === 'Escape') {
-        closeBigPicture();
-      }
-    });
-    document.addEventListener('click', function (evt) {
-      if (evt.target === window.constant.bigPictureOverlayElement) {
-        closeBigPicture();
-      }
-    });
     loadPhotos();
     initPictureFilters();
   }
 
   window.pictures = {
     init: init,
+    changeFilter: changeFilter,
   };
 })();
