@@ -119,9 +119,7 @@
         break;
       }
       case 'filter-random': {
-        var copyRandom = window.constant.loadedPhotos.slice(function (photo) {
-          return photo;
-        });
+        var copyRandom = window.constant.loadedPhotos.slice();
         var shuffled = copyRandom.sort(function () {
           return 0.5 - Math.random();
         });
@@ -130,9 +128,7 @@
         break;
       }
       case 'filter-discussed': {
-        var copyDiscussed = window.constant.loadedPhotos.slice(function (photo) {
-          return photo;
-        });
+        var copyDiscussed = window.constant.loadedPhotos.slice();
         var sorted = copyDiscussed.sort(function (photoA, photoB) {
           return photoB.comments.length - photoA.comments.length;
         });
